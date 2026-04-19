@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactElement, ReactNode, RefObject } from 'react';
 
 export type ModalSize = 'sm' | 'md' | 'lg';
 
@@ -6,6 +6,8 @@ interface ModalBase {
   backdropDismiss?: boolean;
   className?: string;
   disabledEscKey?: boolean;
+  portal?: boolean;
+  portalTarget?: RefObject<HTMLElement | null>;
   title?: string;
   size?: ModalSize;
 }
@@ -22,3 +24,8 @@ export interface CustomModalProps extends ModalBase {
 export type ModalProps = AlertModalProps | CustomModalProps;
 
 export type OpenModalInput = ModalProps | ReactElement | string;
+
+export interface OpenModalOptions {
+  portal?: boolean;
+  portalTarget?: RefObject<HTMLElement | null>;
+}

@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 
 import { Providers } from '@/app/providers';
 import { ModalManager } from '@/components/ui/modal/modal-manager';
+import { GLOBAL_MODAL_PORTAL_TARGET_ID } from '@/components/ui/modal/modal-portal';
 
 import './globals.css';
 
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Providers>
           {children}
           <ModalManager />
+          <div id={GLOBAL_MODAL_PORTAL_TARGET_ID} />
         </Providers>
       </body>
     </html>

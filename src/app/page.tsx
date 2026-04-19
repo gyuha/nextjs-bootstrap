@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import React from 'react';
+import { useForm, useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -11,6 +12,16 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { ModalPortal } from '@/components/ui/modal/modal-portal';
 import {
   selectAuthUser,
   selectIsAuthenticated,
@@ -28,6 +39,87 @@ function HomeModalSample() {
         전역 modal store에서 JSX 컨텐츠를 직접 렌더링합니다.
       </p>
     </div>
+  );
+}
+
+interface ContextPortalValues {
+  previewText: string;
+}
+
+function ContextPortalModalContent() {
+  const previewText =
+    useFormContext<ContextPortalValues>().watch('previewText');
+
+  return (
+    <div className="space-y-3">
+      <p className="text-sm text-muted-foreground">
+        현재 폼 컨텍스트에서 읽은 값
+      </p>
+      <p className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3 text-base font-medium text-foreground">
+        {previewText || '입력 없음'}
+      </p>
+    </div>
+  );
+}
+
+function ContextPortalPlayground() {
+  const [open, setOpen] = React.useState(false);
+  const form = useForm<ContextPortalValues>({
+    defaultValues: {
+      previewText: '',
+    },
+  });
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Context Portal Playground</CardTitle>
+        <CardDescription>
+          form subtree 안에서 전역 위치로 portal 하면서도 react-hook-form
+          context를 그대로 읽는 샘플입니다.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form
+            className="space-y-4"
+            onSubmit={(event) => event.preventDefault()}
+          >
+            <FormField
+              control={form.control}
+              name="previewText"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>미리보기 텍스트</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="modal에서 확인할 값을 입력"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              onClick={() => setOpen(true)}
+              type="button"
+              variant="secondary"
+            >
+              컨텍스트 포털 모달 열기
+            </Button>
+            <ModalPortal
+              onClose={() => setOpen(false)}
+              open={open}
+              size="sm"
+              title="Context Portal Modal"
+            >
+              <ContextPortalModalContent />
+            </ModalPortal>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -127,9 +219,12 @@ export default function HomePage() {
             <p>3. 정상 로그인 후 홈 상태 카드 반영 확인</p>
             <p>4. 잘못된 입력값에 대한 필드별 Zod 검증 메시지 확인</p>
             <p>5. 홈 화면에서 전역 modal alert/custom 샘플 확인</p>
+            <p>6. form context를 유지한 채 전역 portal modal 렌더링 확인</p>
           </CardContent>
         </Card>
       </div>
+
+      <ContextPortalPlayground />
     </main>
   );
 }

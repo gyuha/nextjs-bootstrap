@@ -34,12 +34,43 @@ describe('modal-store', () => {
     });
   });
 
+  it('stores custom JSX modals directly', () => {
+    useModalStore.getState().openModal({
+      custom: '커스텀 컨텐츠',
+      title: 'Custom Modal',
+    });
+
+    expect(useModalStore.getState().modals[0]).toMatchObject({
+      custom: '커스텀 컨텐츠',
+      title: 'Custom Modal',
+    });
+  });
+
   it('applies hideBottomButton to alert object inputs too', () => {
     useModalStore.getState().openModal({ alert: '버튼 감춤' }, true);
 
     expect(useModalStore.getState().modals[0]).toMatchObject({
       alert: '버튼 감춤',
       hideBottomButton: true,
+    });
+  });
+
+  it('stores portal options when portal target is provided', () => {
+    const portalTarget = {
+      current: document.createElement('div'),
+    } as React.RefObject<HTMLElement>;
+
+    useModalStore
+      .getState()
+      .openModal({ custom: '포털 컨텐츠', title: '포털 모달' }, false, {
+        portal: true,
+        portalTarget,
+      });
+
+    expect(useModalStore.getState().modals[0]).toMatchObject({
+      portal: true,
+      portalTarget,
+      title: '포털 모달',
     });
   });
 

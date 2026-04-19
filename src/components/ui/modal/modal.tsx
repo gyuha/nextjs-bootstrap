@@ -1,7 +1,8 @@
 'use client';
 
-import type { ModalProps } from '@/stores/modal.types';
 import React from 'react';
+
+import type { ModalProps } from '@/stores/modal.types';
 
 import { ModalContainer } from './modal-container';
 import { ModalDefault } from './modal-default';

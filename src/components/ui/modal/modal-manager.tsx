@@ -3,6 +3,7 @@
 import { AnimatePresence } from 'motion/react';
 import React from 'react';
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 import { ModalRenderer } from '@/components/ui/modal/modal';
 import { ModalBackdrop } from '@/components/ui/modal/modal-backdrop';
@@ -107,24 +108,31 @@ export function ModalManager() {
     };
   }, [closeModal, topModal]);
 
-  return (
-    <AnimatePresence>
-      {topModal ? (
-        <ModalBackdrop>
-          <div
-            className="flex w-full items-center justify-center"
-            onMouseDown={() => {
-              if (topModal.backdropDismiss !== false) {
-                closeModal();
-              }
-            }}
-          >
-            <div onMouseDown={(event) => event.stopPropagation()}>
-              <ModalRenderer modal={topModal} onClose={closeModal} />
-            </div>
-          </div>
-        </ModalBackdrop>
-      ) : null}
-    </AnimatePresence>
+  const modalNode = topModal ? (
+    <ModalBackdrop
+      className={topModal.portal ? 'absolute inset-0 z-50' : undefined}
+    >
+      <div
+        className="flex h-full w-full items-center justify-center"
+        onMouseDown={() => {
+          if (topModal.backdropDismiss !== false) {
+            closeModal();
+          }
+        }}
+      >
+        <div onMouseDown={(event) => event.stopPropagation()}>
+          <ModalRenderer modal={topModal} onClose={closeModal} />
+        </div>
+      </div>
+    </ModalBackdrop>
+  ) : null;
+
+  return topModal?.portal && topModal.portalTarget?.current ? (
+    createPortal(
+      <AnimatePresence>{modalNode}</AnimatePresence>,
+      topModal.portalTarget.current,
+    )
+  ) : (
+    <AnimatePresence>{modalNode}</AnimatePresence>
   );
 }

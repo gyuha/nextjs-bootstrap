@@ -3,14 +3,22 @@
 import React from 'react';
 import { create } from 'zustand';
 
-import type { ModalProps, OpenModalInput } from '@/stores/modal.types';
+import type {
+  ModalProps,
+  OpenModalInput,
+  OpenModalOptions,
+} from '@/stores/modal.types';
 
 interface ModalState {
   closeAllModals: () => void;
   closeModal: () => void;
   modalCount: () => number;
   modals: ModalProps[];
-  openModal: (modal: OpenModalInput, hideBottomButton?: boolean) => void;
+  openModal: (
+    modal: OpenModalInput,
+    hideBottomButton?: boolean,
+    options?: OpenModalOptions,
+  ) => void;
 }
 
 const initialState = {
@@ -25,7 +33,15 @@ export const useModalStore = create<ModalState>((set, get) => ({
       modals: state.modals.slice(0, state.modals.length - 1),
     })),
   modalCount: () => get().modals.length,
-  openModal: (modal, hideBottomButton = false) => {
+  openModal: (modal, hideBottomButton = false, options = {}) => {
+    const portalOptions =
+      options?.portal === true && options.portalTarget
+        ? {
+            portal: true,
+            portalTarget: options.portalTarget,
+          }
+        : {};
+
     if (typeof modal === 'string' || React.isValidElement(modal)) {
       set((state) => ({
         modals: [
@@ -33,6 +49,7 @@ export const useModalStore = create<ModalState>((set, get) => ({
           {
             alert: modal,
             hideBottomButton,
+            ...portalOptions,
             size: 'sm',
           },
         ],
@@ -48,8 +65,12 @@ export const useModalStore = create<ModalState>((set, get) => ({
           ? {
               ...modal,
               hideBottomButton: modal.hideBottomButton ?? true,
+              ...portalOptions,
             }
-          : modal,
+          : {
+              ...modal,
+              ...portalOptions,
+            },
       ],
     }));
   },
