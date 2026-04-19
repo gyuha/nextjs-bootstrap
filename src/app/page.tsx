@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import React from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,11 +16,42 @@ import {
   selectIsAuthenticated,
   useAuthStore,
 } from '@/features/auth/store/auth.store';
+import { useModalStore } from '@/stores/modal-store';
+
+function HomeModalSample() {
+  return (
+    <div className="space-y-3">
+      <h3 className="text-lg font-semibold text-foreground">
+        Custom Modal Sample
+      </h3>
+      <p className="text-sm leading-6 text-muted-foreground">
+        전역 modal store에서 JSX 컨텐츠를 직접 렌더링합니다.
+      </p>
+    </div>
+  );
+}
 
 export default function HomePage() {
   const isAuthenticated = useAuthStore(selectIsAuthenticated);
   const user = useAuthStore(selectAuthUser);
   const clearUser = useAuthStore((state) => state.clearUser);
+  const openModal = useModalStore((state) => state.openModal);
+
+  const openAlertModal = React.useCallback(() => {
+    openModal({
+      alert:
+        'nextjs-sse의 modal 흐름을 현재 프로젝트에 맞게 축소 이식했습니다.',
+      title: '모달 시스템 이식 완료',
+    });
+  }, [openModal]);
+
+  const openCustomModal = React.useCallback(() => {
+    openModal({
+      custom: <HomeModalSample />,
+      size: 'sm',
+      title: 'Custom Modal',
+    });
+  }, [openModal]);
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-6xl flex-col justify-center gap-6 px-4 py-10 sm:px-6 lg:px-8">
@@ -43,6 +75,12 @@ export default function HomePage() {
           </Button>
           <Button asChild size="lg" variant="outline">
             <Link href="/signup">회원가입 열기</Link>
+          </Button>
+          <Button onClick={openAlertModal} size="lg" variant="secondary">
+            알림 모달 열기
+          </Button>
+          <Button onClick={openCustomModal} size="lg" variant="outline">
+            커스텀 모달 열기
           </Button>
           {isAuthenticated ? (
             <Button onClick={clearUser} size="lg" variant="ghost">
@@ -88,6 +126,7 @@ export default function HomePage() {
             <p>2. `taken@example.com`으로 회원가입 실패 메시지 확인</p>
             <p>3. 정상 로그인 후 홈 상태 카드 반영 확인</p>
             <p>4. 잘못된 입력값에 대한 필드별 Zod 검증 메시지 확인</p>
+            <p>5. 홈 화면에서 전역 modal alert/custom 샘플 확인</p>
           </CardContent>
         </Card>
       </div>

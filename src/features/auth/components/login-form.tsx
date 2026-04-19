@@ -1,13 +1,12 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -31,6 +30,7 @@ import {
   type LoginFormValues,
   loginSchema,
 } from '@/features/auth/schema/auth.schema';
+import { useModalStore } from '@/stores/modal-store';
 
 const cardMotion = {
   animate: { opacity: 1, y: 0 },
@@ -43,6 +43,7 @@ export function LoginForm() {
   const searchParams = useSearchParams();
   const [isNavigating, startTransition] = React.useTransition();
   const mutation = useLoginMutation();
+  const openModal = useModalStore((state) => state.openModal);
   const form = useForm<LoginFormValues>({
     defaultValues: {
       email: '',
@@ -52,16 +53,45 @@ export function LoginForm() {
   });
 
   const onSubmit = form.handleSubmit(async (values) => {
-    await mutation.mutateAsync(values);
-    startTransition(() => {
-      router.push('/');
-    });
+    try {
+      await mutation.mutateAsync(values);
+      startTransition(() => {
+        router.push('/');
+      });
+    } catch {
+      // Mutation error UI is handled through the modal system.
+    }
   });
 
   const registered = searchParams.get('registered') === '1';
-  const errorMessage = mutation.error
-    ? getAuthErrorMessage(mutation.error)
-    : null;
+  const registeredModalShownRef = React.useRef(false);
+  const previousErrorRef = React.useRef<unknown>(null);
+
+  React.useEffect(() => {
+    if (!registered || registeredModalShownRef.current) {
+      return;
+    }
+
+    registeredModalShownRef.current = true;
+
+    openModal({
+      alert: '이제 방금 만든 계정으로 로그인해 보세요.',
+      title: '회원가입 완료',
+    });
+  }, [openModal, registered]);
+
+  React.useEffect(() => {
+    if (!mutation.error || mutation.error === previousErrorRef.current) {
+      return;
+    }
+
+    previousErrorRef.current = mutation.error;
+
+    openModal({
+      alert: getAuthErrorMessage(mutation.error),
+      title: '로그인 실패',
+    });
+  }, [mutation.error, openModal]);
 
   return (
     <motion.div className="w-full max-w-md" {...cardMotion}>
@@ -73,36 +103,6 @@ export function LoginForm() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
-          <AnimatePresence initial={false} mode="popLayout">
-            {registered ? (
-              <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-              >
-                <Alert>
-                  <AlertTitle>회원가입 완료</AlertTitle>
-                  <AlertDescription>
-                    이제 방금 만든 계정으로 로그인해 보세요.
-                  </AlertDescription>
-                </Alert>
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
-          <AnimatePresence initial={false}>
-            {errorMessage ? (
-              <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-              >
-                <Alert variant="destructive">
-                  <AlertTitle>로그인 실패</AlertTitle>
-                  <AlertDescription>{errorMessage}</AlertDescription>
-                </Alert>
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
           <Form {...form}>
             <form className="space-y-4" onSubmit={onSubmit}>
               <FormField

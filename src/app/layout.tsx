@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 import { Providers } from '@/app/providers';
+import { ModalManager } from '@/components/ui/modal/modal-manager';
 
 import './globals.css';
 
@@ -18,7 +19,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ko">
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <ModalManager />
+        </Providers>
       </body>
     </html>
   );
