@@ -22,13 +22,13 @@ export const MODAL_SIZE: Record<ModalSize, string> = {
 	"3xl": "1400px",
 };
 
-const Modal = ({
+function ModalInner({
 	className,
 	size = "md",
 	forcusLockDisabled,
 	zIndex,
 	...rest
-}: ModalProps): React.JSX.Element | null => {
+}: ModalProps): React.JSX.Element | null {
 	const { setFocusLockDisabled } = useModal();
 
 	useEffect(() => {
@@ -70,9 +70,9 @@ const Modal = ({
 	}
 
 	return <Modal.Container>Need any content...</Modal.Container>;
-};
+}
 
-Modal.Ground = ({ children }: { children: React.ReactNode }) => {
+function ModalGround({ children }: { children: React.ReactNode }) {
 	const { modals, modalCount, closeModal } = useModal();
 
 	const closeModalByClick = () => {
@@ -82,51 +82,51 @@ Modal.Ground = ({ children }: { children: React.ReactNode }) => {
 		closeModal();
 	};
 
-	const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-		if (event.key === "Escape") {
-			closeModalByClick();
-		}
-	};
-
 	return (
-		// biome-ignore lint/a11y/noStaticElementInteractions: This is a modal backdrop that needs to handle clicks and keyboard events
+		// biome-ignore lint/a11y/noStaticElementInteractions: modal backdrop click handler
 		<div
 			className={cn(
 				"fixed inset-0 z-50 flex h-full w-full items-center justify-center",
 			)}
+			role="presentation"
 			onClick={(e) => {
 				e.stopPropagation();
 				closeModalByClick();
 			}}
-			onKeyDown={handleKeyDown}
 		>
 			{children}
 		</div>
 	);
-};
+}
 
-Modal.Container = ModalContainer;
-Modal.Header = ModalHeader;
-Modal.Content = ({
+function ModalContent({
 	children,
 	className,
 }: {
 	children: React.ReactNode;
 	className?: string;
-}) => (
-	<div
-		className={cn(
-			"w-full overflow-y-auto overflow-x-hidden",
-			className,
-		)}
-	>
-		{children}
-	</div>
-);
-Modal.Footer = ({ children }: { children: React.ReactNode }) => (
-	<div className={cn("grid grid-flow-col justify-items-stretch gap-x-1")}>
-		{children}
-	</div>
-);
+}) {
+	return (
+		<div className={cn("w-full overflow-y-auto overflow-x-hidden", className)}>
+			{children}
+		</div>
+	);
+}
+
+function ModalFooter({ children }: { children: React.ReactNode }) {
+	return (
+		<div className={cn("grid grid-flow-col justify-items-stretch gap-x-1")}>
+			{children}
+		</div>
+	);
+}
+
+const Modal = Object.assign(ModalInner, {
+	Ground: ModalGround,
+	Container: ModalContainer,
+	Header: ModalHeader,
+	Content: ModalContent,
+	Footer: ModalFooter,
+});
 
 export default Modal;
