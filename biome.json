@@ -1,9 +1,19 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.4.12/schema.json",
-	"organizeImports": { "enabled": true },
-	"linter": { "enabled": true, "rules": { "recommended": true } },
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"a11y": {
+				"noLabelWithoutControl": "off"
+			}
+		}
+	},
 	"formatter": { "enabled": true, "indentStyle": "tab" },
 	"javascript": { "formatter": { "quoteStyle": "double" } },
 	"css": { "parser": { "cssModules": false, "tailwindDirectives": true } },
-	"files": { "ignore": [".next/*"] }
+	"files": {
+		"ignoreUnknown": false,
+		"includes": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"]
+	}
 }
