@@ -41,8 +41,11 @@ const useFormField = () => {
 		throw new Error("useFormField should be used within <FormField>");
 	}
 
-	const { formState } = useFormContext();
-	const fieldState = formState.errors[fieldContext.name];
+	const formContext = useFormContext();
+
+	// Handle SSR case where formContext might be null
+	const formState = formContext?.formState;
+	const fieldState = formState?.errors?.[fieldContext.name];
 
 	if (!itemContext) {
 		throw new Error("useFormField should be used within <FormItem>");
