@@ -46,21 +46,28 @@ const ModalContainer = ({
 	zIndex,
 }: IModalContainerProps): React.JSX.Element | null => {
 	const isMobile = useMobileDetection();
+	const isFull = size === "full";
 
 	return (
 		<motion.div
 			tabIndex={-1}
 			className={cn(
-				"relative inset-0 rounded-xl z-60",
-				"gap-6 rounded-xl border shadow-sm m-1",
-				"flex max-h-full max-w-full flex-col scroll-auto",
-				isMobile ? "h-full !w-full px-6" : "p-6",
-				className || "gap-6 bg-white shadow",
+				"relative inset-0 z-60",
+				"flex flex-col scroll-auto",
+				isFull
+					? "fixed inset-0 h-full w-full"
+					: "gap-6 rounded-xl border shadow-sm m-1 max-h-full max-w-full",
+				isMobile && !isFull ? "h-full !w-full px-6" : !isFull && "p-6",
+				className || (isFull ? "bg-white" : "gap-6 bg-white shadow"),
 			)}
-			style={{
-				width: MODAL_SIZE[size || "md"],
-				zIndex: zIndex,
-			}}
+			style={
+				isFull
+					? { zIndex: zIndex }
+					: {
+							width: MODAL_SIZE[size || "md"],
+							zIndex: zIndex,
+						}
+			}
 			variants={effect}
 			initial="hidden"
 			animate="visible"
