@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -24,10 +25,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { useSignupMutation } from "../hooks/use-auth-mutation";
 import { type SignupFormData, signupSchema } from "../schema/auth.schema";
+import { useAuthStore } from "../store/auth.store";
 
 export function SignupForm() {
 	const router = useRouter();
 	const mutation = useSignupMutation();
+	const { hasHydrated, isAuthenticated } = useAuthStore();
 
 	const form = useForm<SignupFormData>({
 		resolver: zodResolver(signupSchema),
@@ -43,6 +46,12 @@ export function SignupForm() {
 			},
 		});
 	}
+
+	useEffect(() => {
+		if (hasHydrated && isAuthenticated) {
+			router.replace("/");
+		}
+	}, [hasHydrated, isAuthenticated, router]);
 
 	const errorMessage =
 		mutation.data && !mutation.data.success
