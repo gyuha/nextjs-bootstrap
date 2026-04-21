@@ -44,7 +44,7 @@ bunx shadcn@latest add https://tweakcn.com/r/themes/t3-chat
 bunx shadcn@latest add https://tweakcn.com/r/themes/catppuccin
 ```
 
-> CLI 실행 후 `globals.css`의 CSS 변수가 자동으로 교체됩니다.
+> CLI 실행 후 `globals.scss`의 CSS 변수가 자동으로 교체됩니다.
 
 ---
 
@@ -55,7 +55,7 @@ bunx shadcn@latest add https://tweakcn.com/r/themes/catppuccin
 1. [tweakcn.com/editor/theme](https://tweakcn.com/editor/theme) 접속
 2. 원하는 테마 선택 또는 색상/폰트 직접 조정
 3. 우측 상단 **Code** 버튼 → "Tailwind v4" + "oklch" 선택
-4. 아래 내용만 복사해서 `globals.css`에 붙여넣기:
+4. 아래 내용만 복사해서 `globals.scss`에 붙여넣기:
 
 ```css
 /* 이 두 블록만 교체 */
@@ -84,7 +84,7 @@ bunx shadcn@latest add https://tweakcn.com/r/themes/catppuccin
 
 ## 테마 설치 후 폰트 처리
 
-CLI 설치 후 `globals.css`의 `@theme inline` 블록에서 `--font-sans` 값을 확인합니다.
+CLI 설치 후 `globals.scss`의 `@theme inline` 블록에서 `--font-sans` 값을 확인합니다.
 
 ### 시스템 폰트인 경우 (추가 작업 없음)
 
@@ -156,7 +156,7 @@ tweakcn 테마는 **shadcn/ui 컴포넌트 변수**를 교체합니다.
 | `/` (프로젝트 대시보드) | ⚠️ 일부 적용 | `--bg`, `--surface`, `--ink`, `--accent` (커스텀) |
 | `/editor` | ⚠️ 일부 적용 | `--bg`, `--surface`, `--ink`, `--accent` (커스텀) |
 
-Tale Weaver 커스텀 변수는 `globals.css`의 `/* TALE WEAVER */` 섹션에서 별도 관리합니다.
+Tale Weaver 커스텀 변수는 `globals.scss`의 `/* TALE WEAVER */` 섹션에서 별도 관리합니다.
 
 ---
 

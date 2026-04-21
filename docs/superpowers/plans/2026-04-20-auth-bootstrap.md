@@ -19,7 +19,7 @@
 | `next.config.ts` | Next.js 설정 |
 | `biome.json` | Biome 포맷/린트 설정 |
 | `components.json` | shadcn/ui 설정 |
-| `src/app/globals.css` | Tailwind + shadcn/ui CSS 변수 |
+| `src/app/globals.scss` | Tailwind + shadcn/ui CSS 변수 |
 | `src/app/layout.tsx` | 루트 레이아웃 (providers 포함) |
 | `src/app/page.tsx` | 홈 페이지 (인증 상태 표시) |
 | `src/app/providers.tsx` | TanStack Query Provider |
@@ -47,7 +47,7 @@
 - Create: `biome.json`
 - Create: `src/app/layout.tsx`
 - Create: `src/app/page.tsx`
-- Create: `src/app/globals.css`
+- Create: `src/app/globals.scss`
 
 - [ ] **Step 1: Next.js 프로젝트 생성**
 
@@ -164,7 +164,7 @@ git commit -m "chore: bootstrap Next.js project with Bun, Tailwind, Biome"
 ## Task 2: UI 기초 및 shadcn/ui 세팅
 
 **Files:**
-- Modify: `src/app/globals.css`
+- Modify: `src/app/globals.scss`
 - Create: `components.json`
 - Create: `src/components/ui/button.tsx`
 - Create: `src/components/ui/card.tsx`
@@ -311,7 +311,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 ```tsx
 import type { Metadata } from "next";
 import { Providers } from "./providers";
-import "./globals.css";
+import "./globals.scss";
 
 export const metadata: Metadata = {
   title: "Auth Bootstrap",

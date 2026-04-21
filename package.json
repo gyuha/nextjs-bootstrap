@@ -37,7 +37,8 @@
 		"@types/node": "^20",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
-				"tailwindcss": "^4",
+		"sass": "^1.99.0",
+		"tailwindcss": "^4",
 		"typescript": "^5"
 	},
 	"ignoreScripts": [

@@ -13,7 +13,7 @@ Next.js (App Router), TypeScript, React 19, Tailwind CSS, shadcn/ui, Zustand, Ta
 ```
 src/
 ├── app/                       # App Router
-│   ├── globals.css
+│   ├── globals.scss
 │   ├── layout.tsx             # 루트 레이아웃
 │   ├── page.tsx               # 홈
 │   ├── providers.tsx          # TanStack Query Provider

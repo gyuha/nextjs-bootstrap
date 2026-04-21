@@ -118,7 +118,7 @@
 ├── next.config.ts
 ├── src/
 │   ├── app/
-│   │   ├── globals.css
+│   │   ├── globals.scss
 │   │   ├── layout.tsx
 │   │   ├── page.tsx
 │   │   ├── providers.tsx
@@ -163,7 +163,7 @@
 - Create: `biome.json`
 - Create: `src/app/layout.tsx`
 - Create: `src/app/page.tsx`
-- Create: `src/app/globals.css`
+- Create: `src/app/globals.scss`
 
 - [ ] Next.js App Router + TypeScript + Tailwind 기반 프로젝트를 Bun으로 초기화한다.
 - [ ] Biome 설정을 추가하고 포맷/린트 명령을 `package.json` 스크립트로 연결한다.
@@ -183,7 +183,7 @@
 ### Task 2: UI 기초 및 shadcn/ui 세팅
 
 **Files:**
-- Modify: `src/app/globals.css`
+- Modify: `src/app/globals.scss`
 - Create: `components.json`
 - Create: `src/components/ui/*`
 - Create: `src/components/layout/auth-shell.tsx`
