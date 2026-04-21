@@ -14,6 +14,18 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="ko" className="h-full antialiased">
+			<head>
+				<link rel="preconnect" href="https://fonts.googleapis.com" />
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+				<link
+					href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+					rel="stylesheet"
+				/>
+				<link
+					href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+					rel="stylesheet"
+				/>
+			</head>
 			<body className="min-h-full flex flex-col font-[family-name:var(--font-ui)] antialiased">
 				<Providers>{children}</Providers>
 			</body>
