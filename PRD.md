@@ -193,15 +193,34 @@
 - [ ] 컬러, spacing, form width, card 스타일 등 최소 디자인 기준을 정한다.
 
 **권장 shadcn/ui 컴포넌트**
+- `accordion`
+- `badge`
 - `button`
 - `card`
+- `calendar`
+- `combobox`
 - `form`
 - `input`
 - `label`
+- `empty`
+- `field`
 - `alert`
 - `alert-dialog`
 - `dialog`
 - `input`
+- `input-group`
+- `item`
+- `pagination`
+- `scroll-area`
+- `progress`
+- `radio-group`
+- `select`
+- `skeleton`
+- `sonner`
+- `switch`
+- `spinner`
+- `tabs`
+
 
 
 ### Task 3: 전역 Provider 구성
