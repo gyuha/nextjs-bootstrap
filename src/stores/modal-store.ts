@@ -2,7 +2,6 @@ import React from 'react';
 import type { JSX } from 'react';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
 
 interface IModalState {
   modals: ModalProps[];
@@ -14,7 +13,7 @@ export interface IModalStore extends IModalState {
   openModal: (
     modalProp: ModalProps | string | JSX.Element,
     hideBottomButton?: boolean,
-    options?: { portal?: boolean; portalTarget?: React.RefObject<HTMLElement> }
+    options?: { portal?: boolean; portalTarget?: React.RefObject<HTMLElement | null> },
   ) => void;
   closeModal: () => void;
   closeAllModal: () => void;
@@ -29,13 +28,13 @@ const initialState: IModalState = {
 
 const useModal = create<IModalStore>()(
   devtools(
-    immer((set, get) => ({
+    (set, get) => ({
       ...initialState,
       modalCount: () => get().modals.length,
       openModal: (
         props: ModalProps | string | JSX.Element,
         hideBottomButton = false,
-        options?: { portal?: boolean; portalTarget?: React.RefObject<HTMLElement> }
+        options?: { portal?: boolean; portalTarget?: React.RefObject<HTMLElement | null> },
       ) => {
         if (typeof props === 'string' || React.isValidElement(props)) {
           get().openModal({
@@ -51,12 +50,10 @@ const useModal = create<IModalStore>()(
         }
 
         const portalOptions =
-          options?.portal && options?.portalTarget
-            ? { portal: true, portalTarget: options.portalTarget }
-            : {};
+          options?.portal && options?.portalTarget ? { portal: true, portalTarget: options.portalTarget } : {};
 
-        const modalProps = {
-          ...props,
+        const modalProps: ModalProps = {
+          ...(props as ModalProps),
           ...portalOptions,
         };
 
@@ -74,11 +71,11 @@ const useModal = create<IModalStore>()(
       reset: () => {
         set(initialState);
       },
-    })),
+    }),
     {
       enabled: true,
-    }
-  )
+    },
+  ),
 );
 
 export default useModal;

@@ -1,10 +1,15 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 import useModal from '@/stores/modal-store';
+import { Plus } from 'lucide-react';
+import { useRef } from 'react';
 
 export default function ModalTestPage() {
   const { openModal, closeModal, closeAllModal, modalCount } = useModal();
+  const portalTargetRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="mx-auto max-w-2xl space-y-8 p-8">
@@ -169,6 +174,56 @@ export default function ModalTestPage() {
         >
           ESC 비활성화 모달
         </Button>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold">Portal 모달</h2>
+        <p className="text-muted-foreground text-sm">
+          모달이 특정 컨테이너 내에 렌더링됩니다. 아래 회색 박스 안에서 모달이 열립니다.
+        </p>
+        <div
+          ref={portalTargetRef}
+          className="relative h-40 rounded-lg border-2 border-dashed border-muted-foreground/30 bg-muted/50"
+        >
+          <div className="flex h-full items-center justify-center">
+            <Button
+              variant="outline"
+              className={cn('flex items-center gap-2')}
+              onClick={() => {
+                openModal(
+                  {
+                    title: '새 채팅채널 만들기',
+                    custom: (
+                      <div className="space-y-4 p-2">
+                        <div className="space-y-2">
+                          <label htmlFor="channel-name" className="text-sm font-medium">
+                            채널 이름
+                          </label>
+                          <Input id="channel-name" placeholder="채널 이름을 입력하세요" />
+                        </div>
+                        <div className="flex justify-end gap-2">
+                          <Button variant="secondary" size="sm" onClick={closeModal}>
+                            취소
+                          </Button>
+                          <Button size="sm" onClick={closeModal}>
+                            만들기
+                          </Button>
+                        </div>
+                      </div>
+                    ),
+                    size: 'sm',
+                    hideBottomButton: true,
+                  },
+                  false,
+                  { portal: true, portalTarget: portalTargetRef },
+                );
+              }}
+            >
+              <Plus className="h-4 w-4" />
+              <span>Portal 모달 열기</span>
+            </Button>
+          </div>
+        </div>
       </section>
 
       <div className="pt-4">

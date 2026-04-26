@@ -35,17 +35,19 @@ const Modals = () => {
   const regularModals = modals.filter((modal) => !modal.portal);
 
   return (
-    <AnimatePresence initial={false}>
-      {regularModals.length > 0 && <ModalBackdrop zIndex={MODAL_Z_INDEX} />}
-      {regularModals.map((modalProps, idx) => {
-        const modalKey = modalProps.id || `modal-${idx}`;
-        const zIndex = modalProps.zIndex || MODAL_Z_INDEX + idx;
-        return (
-          <Modal.Ground key={modalKey}>
-            <Modal {...modalProps} zIndex={zIndex} />
-          </Modal.Ground>
-        );
-      })}
+    <>
+      <AnimatePresence initial={false}>
+        {regularModals.length > 0 && <ModalBackdrop zIndex={MODAL_Z_INDEX} />}
+        {regularModals.map((modalProps, idx) => {
+          const modalKey = modalProps.id || `modal-${idx}`;
+          const zIndex = modalProps.zIndex || MODAL_Z_INDEX + idx;
+          return (
+            <Modal.Ground key={modalKey}>
+              <Modal {...modalProps} zIndex={zIndex} />
+            </Modal.Ground>
+          );
+        })}
+      </AnimatePresence>
 
       {modals
         .filter((modal) => modal.portal && modal.portalTarget?.current)
@@ -66,7 +68,7 @@ const Modals = () => {
               )
             : null;
         })}
-    </AnimatePresence>
+    </>
   );
 };
 
