@@ -58,7 +58,7 @@ const Modals = () => {
           return modalProps.portalTarget?.current
             ? createPortal(
                 <AnimatePresence initial={false}>
-                  <ModalBackdrop zIndex={zIndex} className="absolute">
+                  <ModalBackdrop zIndex={zIndex}>
                     <Modal.Ground key={modalKey}>
                       <Modal {...modalProps} zIndex={zIndex} />
                     </Modal.Ground>
