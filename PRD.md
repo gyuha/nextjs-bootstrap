@@ -6,7 +6,7 @@
 
 **Architecture:** `src/app` 중심의 App Router 구조를 사용하고, 인증 기능은 `src/features/auth` 아래에 feature 단위로 분리한다. UI는 shadcn/ui와 Tailwind CSS를 기반으로 하고, 폼 상태와 검증은 React Hook Form + Zod, 인증 UI 상태는 Zustand, 비동기 제출 흐름은 TanStack Query mutation으로 구성한다.
 
-**Tech Stack:** Next.js (App Router), TypeScript, React 19, Tailwind CSS, shadcn/ui, Zustand, TanStack Query, React Hook Form, Zod, Motion, Bun, Biome
+**Tech Stack:** Next.js (App Router), TypeScript, React 19, Tailwind CSS, shadcn/ui, Zustand, TanStack Query, React Hook Form, Zod, Motion, pnpm, Biome
 
 ---
 
@@ -28,7 +28,7 @@
 ### 포함 범위
 
 - Next.js 프로젝트 초기 세팅
-- Tailwind CSS, shadcn/ui, Biome, Bun 기반 개발 환경 구성
+- Tailwind CSS, shadcn/ui, Biome, pnpm 기반 개발 환경 구성
 - 회원가입 페이지
 - 로그인 페이지
 - 공통 인증 레이아웃
@@ -82,9 +82,9 @@
 
 - 화면 전환이나 제출 완료/오류 메시지 노출에만 제한적으로 사용한다.
 
-### Bun + Biome
+### pnpm + Biome
 
-- 패키지 매니저 및 실행 환경은 Bun을 사용한다.
+- 패키지 매니저 및 실행 환경은 pnpm을 사용한다.
 - 포맷팅과 린트는 Biome로 일원화한다.
 
 ## 4. 정보 구조
@@ -92,18 +92,18 @@
 ### 페이지
 
 - `/`
-- `/login`
-- `/signup`
+- `/auth/login`
+- `/auth/signup`
 
 ### 페이지 역할
 
 - `/`
   - 프로젝트 소개 및 인증 샘플 진입 페이지
   - 로그인/회원가입 링크 제공
-- `/login`
+- `/auth/login`
   - 이메일/비밀번호 입력
   - mock 로그인 요청 처리
-- `/signup`
+- `/auth/signup`
   - 이름/이메일/비밀번호/비밀번호 확인 입력
   - mock 회원가입 요청 처리
 
@@ -122,7 +122,7 @@
 │   │   ├── layout.tsx
 │   │   ├── page.tsx
 │   │   ├── providers.tsx
-│   │   └── (auth)/
+│   │   └── auth/
 │   │       ├── login/
 │   │       │   └── page.tsx
 │   │       └── signup/
@@ -165,15 +165,15 @@
 - Create: `src/app/page.tsx`
 - Create: `src/app/globals.css`
 
-- [ ] Next.js App Router + TypeScript + Tailwind 기반 프로젝트를 Bun으로 초기화한다.
+- [ ] Next.js App Router + TypeScript + Tailwind 기반 프로젝트를 pnpm으로 초기화한다.
 - [ ] Biome 설정을 추가하고 포맷/린트 명령을 `package.json` 스크립트로 연결한다.
 - [ ] 기본 홈 페이지와 루트 레이아웃을 생성한다.
 - [ ] 절대 경로 alias `@/*`를 사용할 수 있도록 정리한다.
 
 **Run:**
-- `bun install`
-- `bun run lint`
-- `bunx tsc --noEmit`
+- `pnpm install`
+- `pnpm run lint`
+- `pnpmx tsc --noEmit`
 
 **Expected:**
 - 의존성 설치 성공
@@ -199,6 +199,10 @@
 - `input`
 - `label`
 - `alert`
+- `alert-dialog`
+- `dialog`
+- `input`
+
 
 ### Task 3: 전역 Provider 구성
 
@@ -257,7 +261,7 @@
 ### Task 8: 로그인 페이지 구현
 
 **Files:**
-- Create: `src/app/(auth)/login/page.tsx`
+- Create: `src/app/auth/login/page.tsx`
 - Create: `src/features/auth/components/login-form.tsx`
 
 - [ ] `auth-shell` 안에 로그인 폼을 렌더링한다.
@@ -268,7 +272,7 @@
 ### Task 9: 회원가입 페이지 구현
 
 **Files:**
-- Create: `src/app/(auth)/signup/page.tsx`
+- Create: `src/app/auth/signup/page.tsx`
 - Create: `src/features/auth/components/signup-form.tsx`
 
 - [ ] 이름, 이메일, 비밀번호, 비밀번호 확인 입력 필드를 구현한다.
@@ -307,9 +311,9 @@
 - [ ] 아래 검증 명령이 모두 통과하는지 확인한다.
 
 **Run:**
-- `bun run dev`
-- `bun run lint`
-- `bunx tsc --noEmit`
+- `pnpm run dev`
+- `pnpm run lint`
+- `pnpmx tsc --noEmit`
 
 **Expected:**
 - 개발 서버 실행 성공
@@ -326,7 +330,7 @@
 - 로그인 성공 시 클라이언트 인증 상태가 갱신된다.
 - 홈 화면에서 샘플 인증 상태를 확인할 수 있다.
 - 코드가 feature 단위로 분리되어 이후 실제 API 연동이 가능하다.
-- `bun run lint` 및 `bunx tsc --noEmit`가 통과한다.
+- `pnpm run lint` 및 `pnpmx tsc --noEmit`가 통과한다.
 
 ## 8. 리스크와 대응
 
