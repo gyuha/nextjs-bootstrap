@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from 'react';
 
 interface AuthShellProps {
-  children: ReactNode
-  title: string
-  subtitle: ReactNode
+  children: ReactNode;
+  title: string;
+  subtitle: ReactNode;
 }
 
 export function AuthShell({ children, title, subtitle }: AuthShellProps) {
@@ -41,5 +41,5 @@ export function AuthShell({ children, title, subtitle }: AuthShellProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

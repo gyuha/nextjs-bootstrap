@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { useAuthStore } from '@/features/auth/store/auth.store'
+import { Button } from '@/components/ui/button';
+import { useAuthStore } from '@/features/auth/store/auth.store';
+import Link from 'next/link';
 
 export default function HomePage() {
-  const { isAuthenticated, user, clearUser } = useAuthStore()
+  const { isAuthenticated, user, clearUser } = useAuthStore();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8">
@@ -49,5 +49,5 @@ export default function HomePage() {
         )}
       </div>
     </main>
-  )
+  );
 }

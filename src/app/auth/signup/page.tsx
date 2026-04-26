@@ -1,6 +1,6 @@
-import Link from 'next/link'
-import { AuthShell } from '@/components/layout/auth-shell'
-import { SignupForm } from '@/features/auth/components/signup-form'
+import { AuthShell } from '@/components/layout/auth-shell';
+import { SignupForm } from '@/features/auth/components/signup-form';
+import Link from 'next/link';
 
 export default function SignupPage() {
   return (
@@ -17,5 +17,5 @@ export default function SignupPage() {
     >
       <SignupForm />
     </AuthShell>
-  )
+  );
 }

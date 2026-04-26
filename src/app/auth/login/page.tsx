@@ -1,6 +1,6 @@
-import Link from 'next/link'
-import { AuthShell } from '@/components/layout/auth-shell'
-import { LoginForm } from '@/features/auth/components/login-form'
+import { AuthShell } from '@/components/layout/auth-shell';
+import { LoginForm } from '@/features/auth/components/login-form';
+import Link from 'next/link';
 
 export default function LoginPage() {
   return (
@@ -17,5 +17,5 @@ export default function LoginPage() {
     >
       <LoginForm />
     </AuthShell>
-  )
+  );
 }

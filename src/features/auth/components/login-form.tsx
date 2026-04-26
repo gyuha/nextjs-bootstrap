@@ -1,10 +1,7 @@
-'use client'
+'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { AnimatePresence, motion } from 'motion/react'
-import { useForm } from 'react-hook-form'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -12,18 +9,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { useLoginMutation } from '../hooks/use-auth-mutation'
-import { loginSchema, type LoginFormValues } from '../schema/auth.schema'
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AnimatePresence, motion } from 'motion/react';
+import { useForm } from 'react-hook-form';
+import { useLoginMutation } from '../hooks/use-auth-mutation';
+import { type LoginFormValues, loginSchema } from '../schema/auth.schema';
 
 export function LoginForm() {
-  const { mutate, isPending, isError, error } = useLoginMutation()
+  const { mutate, isPending, isError, error } = useLoginMutation();
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },
-  })
+  });
 
   return (
     <motion.div
@@ -84,5 +84,5 @@ export function LoginForm() {
         </form>
       </Form>
     </motion.div>
-  )
+  );
 }
