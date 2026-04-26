@@ -1,22 +1,25 @@
 import type { Metadata } from 'next'
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { Inter } from 'next/font/google'
+import { Toaster } from '@/components/ui/sonner'
+import { Providers } from './providers'
+import './globals.css'
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Next.js Bootstrap',
-  description: 'Next.js Bootstrap App',
+  title: 'Auth Bootstrap',
+  description: 'Next.js 프론트엔드 시작 템플릿',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
-      <body>{children}</body>
+    <html lang="ko">
+      <body className={inter.className}>
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
+      </body>
     </html>
   )
 }
